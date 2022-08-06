@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Minecraft control</title>
+        <style>
+            body {
+                background-color: #232526;
+            }
+
+            h1 {
+                color: #27ff008c;
+                margin-left: 40px;
+            }
+
+            .butoane {
+                width: 10em;
+                margin-bottom: 1em;
+                font-size: 16px;
+                margin-left: 2.5em;
+                font-family: cursive;
+                cursor: pointer;
+            }
+
+            #serverStatus {
+                color: cyan;
+                font-size: 20px;
+                margin-left: 2em;
+            }
+        </style>
+        <script type="text/javascript">
+            function serverStatus() {
+                var xmlHttp = new XMLHttpRequest();
+                var pass = document.getElementById("acces").value;
+                xmlHttp.open("GET", "/status?parola=" + pass, false);
+                xmlHttp.send(null);
+                document.getElementById("serverStatus").innerHTML = xmlHttp.responseText;
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                const acces = document.cookie
+                    .split('; ')
+                    .find((row) => row.startsWith('mc-control-acces='))
+                    ?.split('=')[1];
+                if (acces) {
+                    document.getElementById("acces").value = acces;
+                }
+                serverStatus();
+                setInterval(serverStatus, 5 * 1000); // 60 * 1000 milsec
+            }, false);
+            function startServer(theForm) {
+                var xmlHttp = new XMLHttpRequest();
+                var pass = document.getElementById("acces").value;
+                xmlHttp.open("GET", "/start?parola=" + pass, false); // false for synchronous request
+                xmlHttp.send(null);
+                if (xmlHttp.status === 200) {
+                    var currentDate = new Date();
+                    currentDate.setFullYear(currentDate.getFullYear() + 1);
+                    document.cookie = "mc-control-acces=" + pass + "; expires=" + currentDate.toUTCString();
+                }
+                serverStatus();
+                alert(xmlHttp.responseText);
+                return false;
+            }
+            function stopServer(theForm) {
+                var xmlHttp = new XMLHttpRequest();
+                var pass = document.getElementById("acces").value;
+                xmlHttp.open("GET", "/stop?parola=" + pass, false);
+                xmlHttp.send(null);
+                if (xmlHttp.status === 200) {
+                    var currentDate = new Date();
+                    currentDate.setFullYear(currentDate.getFullYear() + 1);
+                    document.cookie = "mc-control-acces=" + pass + "; expires=" + currentDate.toUTCString();
+                }
+                serverStatus();
+                alert(xmlHttp.responseText);
+                return false;
+            }
+            function nothing() {
+                return null; // yep, nothing
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Minecraft Control</h1>
+
+        <label for="acces" style="font-size: 20px; color: red;">Acces:</label>
+        <input type="text" id="acces" name="accesl" placeholder="Baga aici parola!" required autocomplete="accesl"><br><br>
+
+        <form action="#" onsubmit="return startServer(this);">
+            <input type="submit" value="Start" class="butoane" style="color: green;">
+        </form>
+
+        <form action="#" onsubmit="return stopServer(this);">
+            <input type="submit" value="Stop" class="butoane" style="color: red;">
+        </form>
+
+        <div id="serverStatus">
+
+        </div>
+    </body>
+</html>
