@@ -10,4 +10,4 @@ COPY . /app
 
 ENTRYPOINT [ "python" ]
 
-CMD ["mc-control.py" ]
+CMD ["-u", "mc-control.py" ]
