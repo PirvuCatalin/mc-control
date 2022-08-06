@@ -27,6 +27,7 @@ Note: Containers (LXC/CT) can also be controlled, but you need to change the URL
 4. `docker run -p 8321:8321 -d mc-control`
 5. Open a browser at http://localhost:8321
 
+If you prefer (like I do) to use docker-compose, you can skip step 4 and just run `docker compose up -d`. This will also ensure that the container starts on boot.
 
 [1]: <https://pve.proxmox.com/pve-docs/api-viewer/index.html#/nodes/{node}/lxc/{vmid}/status/start>
 

@@ -1,0 +1,8 @@
+version: "2"
+services:
+  mc-control:
+    image: mc-control
+    container_name: mc-control
+    restart: unless-stopped
+    ports:
+      - "8321:8321"
