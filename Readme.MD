@@ -2,7 +2,13 @@
 
 Note: the name might be misleading, but it can actually start/stop/get-status of any VM in Proxmox. Minecraft was my use case.
 
+Branch `mc-autostop` also contains a checker for auto stopping the VM if there are no players for atleast 10 minutes.
+
+<br>
+
 ### Simple Flask app running in Docker used for controlling a single VM that runs on Promox.
+
+<br>
 
 Available controls:
  - start VM
