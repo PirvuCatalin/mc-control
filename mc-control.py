@@ -75,15 +75,15 @@ def check_server():
         global time_last_activity
         query_result = query.getResult()
         players_online = query_result['OnlinePlayers']
+        print(f'[{datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] Sunt {players_online} playeri online.')
         if players_online == 0:
             if time_last_activity is None:
                 time_last_activity = time.time()
-                return
             elif time.time() - time_last_activity > time_before_stopping_server:
                 print(f'[{datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] Vom opri serverul. Nu a fost niciun player on in ultimele 10 minute.')
                 requests.post(url=stop_url, headers=headers, verify=False)
         else:
-            time_last_activity = None
+            time_last_activity = time.time()
     else:
         time_last_activity = None
 

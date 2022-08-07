@@ -8,6 +8,8 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
+ENV TZ=Europe/Bucharest
+
 ENTRYPOINT [ "python" ]
 
 CMD ["-u", "mc-control.py" ]
